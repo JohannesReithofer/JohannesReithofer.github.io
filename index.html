@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<!--Das ist wirklich meine erste Webseite -->
+<head>
+    <!--Der head-Bereich enthält Informationen zum Dokument, zum Beispiel den Titel -->
+    <title>Meine erste Webseite</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+<!--Im Body steht der Seiteninhalt -->
+<h1>Dies ist meine erste Überschrift</h1>
+<p>
+  <a href="email.html">Kontakt</a>
+</p>
+<form name="MyForm">&nbsp;
+	<table>&nbsp;<textarea style="WIDTH: 500px; HEIGHT: 200px" wrap=virtual rows=5 cols=60 name="DCFcontent"></textarea>
+		<table>
+			<tbody>
+			<tr>
+				<td><b>Test</b></td></tr>
+			<tr>
+				<td><input onclick=ReadFile() value="Read File" type=button></td></tr>
+	</tbody></table>
+</form>
+
+<input type="file" id="files" name="files[]" multiple />
+<output id="list"></output>
+
+<script type=text/javascript>
+
+function ReadFile()
+{
+
+        // Get bytes
+        var buffer = mRequest.response;
+        var dataview = new DataView(buffer);
+}
+
+  function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
+                  f.size, ' bytes, last modified: ',
+                  f.lastModifiedDate.toLocaleDateString(), '</li>');
+    }
+    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
+     var reader = new FileReader();
+
+      // Closure to capture the file information.
+      reader.onload = (function(theFile) {
+        return function(e) {
+          // Render thumbnail.
+          var span = document.createElement('span');
+          span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                            '" title="', escape(theFile.name), '"/>'].join('');
+          document.getElementById('list').insertBefore(span, null);
+        };
+      })(f);
+
+  }
+
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>
+
+</body>
+</html>
